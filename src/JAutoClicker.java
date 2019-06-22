@@ -42,7 +42,7 @@ public class JAutoClicker {
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setState(JFrame.ICONIFIED);
                 this.mouseExited(e);
-                JACListener jacListener = new JACListener(screenSize);
+                JACListener jacListener = new JACListener(frame, screenSize);
             }
 
             @Override
