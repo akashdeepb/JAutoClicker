@@ -7,7 +7,7 @@ class AutoClickBot {
         try {
             int index = 0;
             Robot clicker = new Robot();
-            for(int i = 0; i < 50; i++) {
+            for(int i = 0; i < 10; i++) {
                 index = 0;
                 while (index < x.size()) {
                     clicker.mouseMove(Integer.parseInt(x.get(index).toString()), Integer.parseInt(y.get(index).toString()));
