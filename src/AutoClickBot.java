@@ -8,6 +8,7 @@ class AutoClickBot {
             int index = 0;
             Robot clicker = new Robot();
             for(int i = 0; i < 50; i++) {
+                index = 0;
                 while (index < x.size()) {
                     clicker.mouseMove(Integer.parseInt(x.get(index).toString()), Integer.parseInt(y.get(index).toString()));
                     clicker.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -17,7 +18,7 @@ class AutoClickBot {
                     } catch (InterruptedException ex) {
                         throw new Exception("Interrupted By User");
                     }
-                    i++;
+                    index++;
                 }
             }
 
