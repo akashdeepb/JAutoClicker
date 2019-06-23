@@ -45,19 +45,25 @@ class GetKeyDialog {
 class Settings {
 
     Settings(JFrame parent){
+
+        // Disable Parent Window
+        parent.setEnabled(false);
+
         //Configuring Setting Dialog
         JDialog settingDialog = new JDialog(parent, "Settings");
-        settingDialog.setSize(300,200);
+        settingDialog.setSize(300,210);
         settingDialog.getContentPane().setBackground(Color.DARK_GRAY);
 
-        Properties properties = new Properties();
+        Properties properties = new Properties();           // Properties: Key Configuration
 
+        // Read Configuration File
         try {
             FileReader reader = new FileReader("config");
             properties.load(reader);
         }catch(IOException  e){
             System.out.print("Error");
         }
+
         // Title Label
         JLabel title = new JLabel("Settings");
         title.setBounds(120,10,100,30);
@@ -81,6 +87,8 @@ class Settings {
         COKey.setBounds(208, 70, 70,30);
         COKey.setBackground(Color.DARK_GRAY);
         COKey.setForeground(Color.white);
+
+        // Mouse Listener for Coordinate Key
         COKey.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -100,6 +108,8 @@ class Settings {
         DELKey.setBounds(208,100,70,30);
         DELKey.setBackground(Color.DARK_GRAY);
         DELKey.setForeground(Color.white);
+
+        // Mouse Listener for Delete Key
         DELKey.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -120,6 +130,8 @@ class Settings {
         EXKey.setBounds(208,130,70,30);
         EXKey.setBackground(Color.DARK_GRAY);
         EXKey.setForeground(Color.white);
+
+        // Mouse Listener for Execute Button
         EXKey.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -128,7 +140,34 @@ class Settings {
         });
         settingDialog.add(EXKey);
 
-        // Save Button
+        // Close Button
+        JButton closeBtn = new JButton("CLOSE");
+        closeBtn.setBounds(100,170, 90,30);
+        closeBtn.setBackground(Color.decode("#90a4ae"));
+        closeBtn.setForeground(Color.DARK_GRAY);
+        closeBtn.setFocusPainted(false);
+        closeBtn.setFocusable(false);
+        closeBtn.setBorder(null);
+        closeBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                parent.setEnabled(true);
+                settingDialog.dispose();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+               closeBtn.setBackground(Color.decode("#f44336"));
+               closeBtn.setForeground(Color.white);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+               closeBtn.setBackground(Color.decode("#90a4ae"));
+               closeBtn.setForeground(Color.DARK_GRAY);
+            }
+        });
+        settingDialog.add(closeBtn);
 
         settingDialog.setLayout(null);
         settingDialog.setUndecorated(true);
