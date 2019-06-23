@@ -5,6 +5,10 @@ import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * JAutoClicker
@@ -19,11 +23,24 @@ public class JAutoClicker {
 
     public static void main(String[] args){
 
+        Properties properties = new Properties();
+
         // Main Frame Configurations
         JFrame frame = new JFrame("JAutoClicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300,350);
         frame.getContentPane().setBackground(Color.DARK_GRAY);
+
+        File configFile = new File("config");
+        if(!configFile.exists()) {
+            properties.setProperty("save", "X");
+            properties.setProperty("delete", "Z");
+            try {
+                properties.store(new FileWriter(configFile.getName()), "Configuration File for JAutoClicker\nGit Repo : https://www.github.com/akashdeepb/JAutoClicker");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         // Application Name Label
         JLabel appName = new JLabel("JAutoClicker", SwingConstants.CENTER);
@@ -85,7 +102,7 @@ public class JAutoClicker {
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                     frame.setState(JFrame.ICONIFIED);
                     this.mouseExited(e);
-                    new JACListener(frame, screenSize,Integer.parseInt(delayText.getText()), Integer.parseInt(repeatNumber.getText()));
+                    new JACListener(frame, screenSize,Integer.parseInt(delayTime.getText()), Integer.parseInt(repeatNumber.getText()));
                 }
             }
 
@@ -131,6 +148,8 @@ public class JAutoClicker {
             }
         });
         frame.add(settingsButton);
+
+
 
         // Help Button
         JButton helpBtn = new JButton("HELP");

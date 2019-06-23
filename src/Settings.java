@@ -1,13 +1,63 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Properties;
 
-public class Settings {
+class GetKeyDialog {
+    GetKeyDialog(JDialog parent, JLabel label, Properties properties){
+        parent.setEnabled(false);
+        JDialog getDialog = new JDialog(parent,"Press any Key");
+        getDialog.setSize(250,50);
+        JLabel info = new JLabel("Press New Key ");
+        info.setBounds(50,10,150,30);
+        getDialog.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                changeKey(String.valueOf(e.getKeyChar()),label);
+                properties.setProperty("save",String.valueOf(e.getKeyChar()));
+                try {
+                    properties.store(new FileWriter("config"), "Configuration File for JAutoClicker\nGit Repo : https://www.github.com/akashdeepb/JAutoClicker");
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+                parent.setEnabled(true);
+                getDialog.dispose();
+            }
+        });
+        getDialog.add(info);
+
+        getDialog.setLayout(null);
+        getDialog.setUndecorated(true);
+        getDialog.setVisible(true);
+    }
+
+    private void changeKey (String keyChar, JLabel label){
+        label.setText(keyChar);
+    }
+}
+
+class Settings {
+
     Settings(JFrame parent){
         //Configuring Setting Dialog
         JDialog settingDialog = new JDialog(parent, "Settings");
         settingDialog.setSize(300,200);
         settingDialog.getContentPane().setBackground(Color.DARK_GRAY);
 
+        Properties properties = new Properties();
+
+        try {
+            FileReader reader = new FileReader("config");
+            properties.load(reader);
+        }catch(IOException  e){
+            System.out.print("Error");
+        }
         // Title Label
         JLabel title = new JLabel("Settings");
         title.setBounds(120,10,100,30);
@@ -27,7 +77,36 @@ public class Settings {
         settingDialog.add(saveCO);
 
         // Label for Displaying Coordinate Saving Key
+        JLabel COKey = new JLabel(properties.get("save").toString());
+        COKey.setBounds(208, 70, 70,30);
+        COKey.setBackground(Color.DARK_GRAY);
+        COKey.setForeground(Color.white);
+        COKey.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new GetKeyDialog(settingDialog, COKey, properties);
+            }
+        });
+        settingDialog.add(COKey);
 
+        // Label for Deleting Previous coordinate
+        JLabel delCO = new JLabel("Delete Prev Position : ");
+        delCO.setBounds(8,100,200,30);
+        delCO.setForeground(Color.white);
+        settingDialog.add(delCO);
+
+        //Label for Displaying Delete Key
+        JLabel DELKey = new JLabel(properties.get("delete").toString());
+        DELKey.setBounds(208,100,70,30);
+        DELKey.setBackground(Color.DARK_GRAY);
+        DELKey.setForeground(Color.white);
+        DELKey.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new GetKeyDialog(settingDialog, DELKey, properties);
+            }
+        });
+        settingDialog.add(DELKey);
 
         // Save Button
 
@@ -35,4 +114,5 @@ public class Settings {
         settingDialog.setUndecorated(true);
         settingDialog.setVisible(true);
     }
+
 }

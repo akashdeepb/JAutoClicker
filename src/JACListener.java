@@ -1,10 +1,15 @@
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 /**
  * JACListener
@@ -24,10 +29,19 @@ class JACListener {
     private int btnCount;
     private ArrayList<Integer> x,y,delayArray;
     private Boolean zeroFlag = false;
-    private Boolean timeCounter = false;
     private int listenFlag = 0;
 
     JACListener(JFrame parent, Dimension screenSize, int DEFAULT_DELAY, int REPEATS){
+
+        Properties properties = new Properties();
+        try {
+            FileReader fileReader = new FileReader("config");
+            properties.load(fileReader);
+        }catch (FileNotFoundException ex){
+            System.out.print("File not found");
+        }catch (IOException ex){
+            System.out.print("An Error Occured while Reading File");
+        }
         x = new ArrayList<>(10);
         y = new ArrayList<>(    10);
         delayArray = new ArrayList<>(10);
@@ -62,15 +76,10 @@ class JACListener {
                         public void keyTyped(KeyEvent e) {
                                 if (zeroFlag)
                                     numberOfClicks.setForeground(Color.white);
-                                if (e.getKeyChar() == 'x' || e.getKeyChar() == 'X') {
-                                    if(btnCount == 0)
-                                        System.out.print(0);
-                                    else
-                                        System.out.print(System.nanoTime());
+                                if (e.getKeyChar() == properties.get("save").toString().charAt(0)) {
                                     x.add(MouseInfo.getPointerInfo().getLocation().x);
                                     y.add(MouseInfo.getPointerInfo().getLocation().y);
-                                    if(!timeCounter)
-                                        delayArray.add(DEFAULT_DELAY);
+                                    delayArray.add(DEFAULT_DELAY);
 
                                     btnCount += 1;
                                     numberOfClicks.setText(String.valueOf(btnCount));
