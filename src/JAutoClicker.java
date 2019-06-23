@@ -39,30 +39,7 @@ public class JAutoClicker {
         startListenButton.setFocusable(false);
         startListenButton.setBackground(Color.decode("#90a4ae"));       // Background of START LISTENER Button
         startListenButton.setForeground(Color.DARK_GRAY);
-        startListenButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                frame.setState(JFrame.ICONIFIED);
-                this.mouseExited(e);
-                new JACListener(frame, screenSize, false);
-            }
 
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-                // Change Button background and text color when cursor hovers
-                startListenButton.setBackground(Color.decode("#0277bd"));
-                startListenButton.setForeground(Color.WHITE);
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-               startListenButton.setBackground(Color.decode("#90a4ae"));
-               startListenButton.setForeground(Color.DARK_GRAY);
-            }
-        });
         frame.add(startListenButton);
 
         //Configuration Area
@@ -84,9 +61,25 @@ public class JAutoClicker {
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center,false);
-        delayTime.setBounds(120,170,100,20);
+        delayTime.setBounds(150,170,100,20);
         delayTime.setText("1000");
         frame.add(delayTime);
+
+        // Repeats
+        JLabel repeatText = new JLabel("REPS:" );
+        repeatText.setBounds(50,200,60,20);
+        repeatText.setForeground(Color.white);
+        frame.add(repeatText);
+        JTextPane repeatNumber = new JTextPane();
+        StyledDocument styledRepeat = repeatNumber.getStyledDocument();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        styledRepeat.setParagraphAttributes(0,styledRepeat.getLength(),center,false);
+        repeatNumber.setBounds(150,200,100,20);
+        repeatNumber.setText("20");
+        frame.add(repeatNumber);
+
+
+        // Mouse Listener for TimeCount Checkbox
         timeCount.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -100,6 +93,33 @@ public class JAutoClicker {
                     delayTime.setEnabled(true);
                     delayTime.setBackground(Color.white);
                 }
+            }
+        });
+
+
+        // Mouse Listener for Start Listen Button
+        startListenButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                frame.setState(JFrame.ICONIFIED);
+                this.mouseExited(e);
+                new JACListener(frame, screenSize, timeCount.isSelected(), Integer.parseInt(delayTime.getText()), Integer.parseInt(repeatNumber.getText()));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+                // Change Button background and text color when cursor hovers
+                startListenButton.setBackground(Color.decode("#0277bd"));
+                startListenButton.setForeground(Color.WHITE);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                startListenButton.setBackground(Color.decode("#90a4ae"));
+                startListenButton.setForeground(Color.DARK_GRAY);
             }
         });
 

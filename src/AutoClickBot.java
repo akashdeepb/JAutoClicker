@@ -12,11 +12,11 @@ import java.util.ArrayList;
 class AutoClickBot {
 
     // Constructor for AutoClickBot
-    AutoClickBot(ArrayList x, ArrayList y, ArrayList delayArray) throws Exception{
+    AutoClickBot(ArrayList x, ArrayList y, ArrayList delayArray, int REPEATS) throws Exception{
         try {
             int index;
             Robot clicker = new Robot();            // Creating instance of Robot for CLicking
-            for(int i = 0; i < 10; i++) {
+            for(int i = 0; i < REPEATS; i++) {
                 index = 0;
                 while (index < x.size()) {          // Loop through all the coordinates
 

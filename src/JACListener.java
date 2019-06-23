@@ -26,16 +26,12 @@ class JACListener {
     private Boolean zeroFlag = false;
     private Boolean timeCounter = false;
     private int listenFlag = 0;
-    private int DEFAULT_DELAY;
 
-    JACListener(JFrame parent, Dimension screenSize, Boolean timeCount){
+    JACListener(JFrame parent, Dimension screenSize, Boolean timeCount, int DEFAULT_DELAY, int REPEATS){
         x = new ArrayList<>(10);
         y = new ArrayList<>(10);
         delayArray = new ArrayList<>(10);
         timeCounter = timeCount;
-
-        if(!timeCounter)
-            DEFAULT_DELAY = 1000;
 
         // Listener frame configurations
         JFrame frame = new JFrame("JACListener");
@@ -117,7 +113,7 @@ class JACListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    AutoClickBot autoClickBot = new AutoClickBot(x, y, delayArray);
+                    new AutoClickBot(x, y, delayArray, REPEATS);
 
                 }catch(Exception ex){
                     JDialog errorDialog = new JDialog(frame, "Error");
