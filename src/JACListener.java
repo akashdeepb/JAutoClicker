@@ -22,13 +22,21 @@ import java.util.ArrayList;
 class JACListener {
 
     private int btnCount;
-    private ArrayList<Integer> x,y;
-    private Boolean zflag = false;
+    private ArrayList<Integer> x,y,delayArray;
+    private Boolean zeroFlag = false;
+    private Boolean timeCounter = false;
     private int listenFlag = 0;
+    private int DEFAULT_DELAY;
 
-    JACListener(JFrame parent, Dimension screenSize){
-        x = new ArrayList<Integer>(10);
-        y = new ArrayList<Integer>(10);
+    JACListener(JFrame parent, Dimension screenSize, Boolean timeCount){
+        x = new ArrayList<>(10);
+        y = new ArrayList<>(10);
+        delayArray = new ArrayList<>(10);
+        timeCounter = timeCount;
+
+        if(!timeCounter)
+            DEFAULT_DELAY = 1000;
+
         // Listener frame configurations
         JFrame frame = new JFrame("JACListener");
         frame.setSize(60,250);
@@ -58,21 +66,24 @@ class JACListener {
                     listenBtn.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyTyped(KeyEvent e) {
-                                if (zflag)
+                                if (zeroFlag)
                                     numberOfClicks.setForeground(Color.white);
                                 if (e.getKeyChar() == 'x' || e.getKeyChar() == 'X') {
                                     x.add(MouseInfo.getPointerInfo().getLocation().x);
                                     y.add(MouseInfo.getPointerInfo().getLocation().y);
+                                    if(!timeCounter)
+                                        delayArray.add(DEFAULT_DELAY);
                                     btnCount += 1;
                                     numberOfClicks.setText(String.valueOf(btnCount));
                                 }
                                 if (e.getKeyChar() == 'z' || e.getKeyChar() == 'Z') {
                                     if (btnCount == 0) {
-                                        zflag = true;
+                                        zeroFlag = true;
                                         numberOfClicks.setForeground(Color.RED);
                                     } else {
                                         x.remove(btnCount - 1);
                                         y.remove(btnCount - 1);
+                                        delayArray.remove(btnCount - 1);
                                         btnCount -= 1;
                                         numberOfClicks.setText(String.valueOf(btnCount));
                                     }
@@ -96,15 +107,9 @@ class JACListener {
 
         frame.add(listenBtn);
 
-        // Abort
-        JButton abortBtn = new JButton("S");
-        abortBtn.setBounds(1,57,55, 55);
-        abortBtn.setFocusPainted(false);
-        abortBtn.setVisible(false);
-        frame.add(abortBtn);
-
         // Stop Listening Button
-        JButton executeBtn = new JButton("O");
+        JButton executeBtn = new JButton("Execute");
+        //executeBtn.setFont(new Font("Arial", Font.PLAIN,15));
         executeBtn.setBounds(1,113,55,55);
         executeBtn.setFocusPainted(false);
         // Mouse Listener for executeBtn
@@ -112,7 +117,7 @@ class JACListener {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
-                    AutoClickBot autoClickBot = new AutoClickBot(x, y);
+                    AutoClickBot autoClickBot = new AutoClickBot(x, y, delayArray);
 
                 }catch(Exception ex){
                     JDialog errorDialog = new JDialog(frame, "Error");

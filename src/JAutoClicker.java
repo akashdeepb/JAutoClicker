@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,7 +45,7 @@ public class JAutoClicker {
                 Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 frame.setState(JFrame.ICONIFIED);
                 this.mouseExited(e);
-                JACListener jacListener = new JACListener(frame, screenSize);
+                new JACListener(frame, screenSize, false);
             }
 
             @Override
@@ -62,14 +65,52 @@ public class JAutoClicker {
         });
         frame.add(startListenButton);
 
-        // Stop Button
-        JButton stopListenButton = new JButton("STOP LISTENER");
-        stopListenButton.setBounds(50,140,200,30);
-        stopListenButton.setFocusPainted(false);
-        stopListenButton.setFocusable(false);
-        stopListenButton.setBackground(Color.decode("#90a4ae"));
-        stopListenButton.setForeground(Color.DARK_GRAY);
-        stopListenButton.addMouseListener(new MouseAdapter() {
+        //Configuration Area
+        // CheckBox for Time Counter
+        JCheckBox timeCount = new JCheckBox("Enable Time Counter");
+        timeCount.setBounds(50,140,180,20);
+        timeCount.setFocusPainted(false);
+        timeCount.setBackground(Color.DARK_GRAY);
+        timeCount.setForeground(Color.white);
+        frame.add(timeCount);
+
+        // Default Delay
+        JLabel delayText = new JLabel("DELAY : ");
+        delayText.setBounds(50,170,60, 20);
+        delayText.setForeground(Color.white);
+        frame.add(delayText);
+        JTextPane delayTime = new JTextPane();
+        StyledDocument doc = delayTime.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center,false);
+        delayTime.setBounds(120,170,100,20);
+        delayTime.setText("1000");
+        frame.add(delayTime);
+        timeCount.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(timeCount.isSelected()) {
+                    delayText.setEnabled(false);
+                    delayTime.setEnabled(false);
+                    delayTime.setBackground(Color.DARK_GRAY);
+                }
+                else{
+                    delayText.setEnabled(true);
+                    delayTime.setEnabled(true);
+                    delayTime.setBackground(Color.white);
+                }
+            }
+        });
+
+        // Settings Button
+        JButton settingsButton = new JButton("SETTINGS");
+        settingsButton.setBounds(50,240,200,30);
+        settingsButton.setFocusPainted(false);
+        settingsButton.setFocusable(false);
+        settingsButton.setBackground(Color.decode("#90a4ae"));
+        settingsButton.setForeground(Color.DARK_GRAY);
+        settingsButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
 
@@ -77,17 +118,17 @@ public class JAutoClicker {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                stopListenButton.setBackground(Color.decode("#d50000"));
-                stopListenButton.setForeground(Color.WHITE);
+                settingsButton.setBackground(Color.decode("#d50000"));
+                settingsButton.setForeground(Color.WHITE);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                stopListenButton.setBackground(Color.decode("#90a4ae"));
-                stopListenButton.setForeground(Color.DARK_GRAY);
+                settingsButton.setBackground(Color.decode("#90a4ae"));
+                settingsButton.setForeground(Color.DARK_GRAY);
             }
         });
-        frame.add(stopListenButton);
+        frame.add(settingsButton);
 
 
         frame.setLayout(null);
