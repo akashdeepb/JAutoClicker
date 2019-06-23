@@ -1,5 +1,6 @@
 import javax.sound.midi.SysexMessage;
 import javax.swing.*;
+import javax.xml.crypto.dsig.spec.DigestMethodParameterSpec;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

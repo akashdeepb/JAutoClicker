@@ -9,12 +9,28 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * GetKeyDialog
+ * This creates a dialog which waits for user to give a keyboard input.
+ * As soon as it gets input, it updates the config file as well as
+ * the UI and Disposes.
+ *
+ * @author akashdeepb
+ */
 class GetKeyDialog {
+
+    // Constructor for GetKeyDialog
     GetKeyDialog(JDialog parent, JLabel label, Properties properties){
-        parent.setEnabled(false);
+        parent.setEnabled(false);       // Disable Parent
+
+        // Configuring Dialog
         JDialog getDialog = new JDialog(parent,"Press any Key");
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        getDialog.setLocation(dim.width/2 - getDialog.getSize().width/2,dim.height/2 - getDialog.getSize().height/2);
+        getDialog.getContentPane().setBackground(Color.decode("#212121"));
         getDialog.setSize(250,50);
         JLabel info = new JLabel("Press New Key ");
+        info.setForeground(Color.white);
         info.setBounds(50,10,150,30);
         getDialog.addKeyListener(new KeyAdapter() {
             @Override
@@ -42,8 +58,15 @@ class GetKeyDialog {
     }
 }
 
+/**
+ * Settings Class
+ * This class contains user preferences for Keyboard hot keys.
+ *
+ * @author akashdeepb
+ */
 class Settings {
 
+    // Constructor for Settings
     Settings(JFrame parent){
 
         // Disable Parent Window
@@ -53,6 +76,8 @@ class Settings {
         JDialog settingDialog = new JDialog(parent, "Settings");
         settingDialog.setSize(300,210);
         settingDialog.getContentPane().setBackground(Color.DARK_GRAY);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        settingDialog.setLocation(dim.width/2-settingDialog.getSize().width/2,dim.height/2-settingDialog.getSize().height/2);
 
         Properties properties = new Properties();           // Properties: Key Configuration
 
@@ -148,6 +173,8 @@ class Settings {
         closeBtn.setFocusPainted(false);
         closeBtn.setFocusable(false);
         closeBtn.setBorder(null);
+
+        // Mouse Listener for Close Button
         closeBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

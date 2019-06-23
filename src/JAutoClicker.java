@@ -30,7 +30,8 @@ public class JAutoClicker {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300,350);
         frame.getContentPane().setBackground(Color.DARK_GRAY);
-
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2,dim.height/2-frame.getSize().height/2);
         File configFile = new File("config");
         if(!configFile.exists()) {
             properties.setProperty("save", "X");
