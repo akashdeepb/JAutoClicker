@@ -93,6 +93,8 @@ public class JAutoClicker {
         startListenButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                // Check if Valid Delay Time and Repeat Number is provided
                 if(delayTime.getText().isEmpty() || !delayTime.getText().matches("[0-9]+"))
                     delayTime.setBorder(BorderFactory.createLineBorder(Color.RED));
                 else if(repeatNumber.getText().isEmpty() || !repeatNumber.getText().matches("[0-9]+")) {
@@ -151,13 +153,19 @@ public class JAutoClicker {
         });
         frame.add(settingsButton);
 
-
-
         // Help Button
         JButton helpBtn = new JButton("HELP");
         helpBtn.setBounds(50,270,200,30);
         helpBtn.setBackground(Color.decode("#757575"));
         helpBtn.setFocusPainted(false);
+
+        // Mouse Listener for Help Button
+        helpBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //HELP
+            }
+        });
         frame.add(helpBtn);
 
         frame.setLayout(null);

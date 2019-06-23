@@ -1,6 +1,4 @@
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
-import javax.xml.crypto.dsig.spec.DigestMethodParameterSpec;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -48,7 +46,7 @@ class JACListener {
         delayArray = new ArrayList<>(10);
         // Listener frame configurations
         JFrame frame = new JFrame("JACListener");
-        frame.setSize(60,250);
+        frame.setSize(60,225);
         frame.setUndecorated(true);
         frame.setLocation( screenSize.width , (screenSize.height/2 - 150));
         frame.getContentPane().setBackground(Color.DARK_GRAY);
@@ -62,9 +60,13 @@ class JACListener {
         frame.add(numberOfClicks);
 
         // Record/Listen Button
-        JButton listenBtn = new JButton("S");
+        JButton listenBtn = new JButton("*");
+        listenBtn.setBackground(Color.DARK_GRAY);
+        listenBtn.setBorder(BorderFactory.createLineBorder(Color.decode("#039be5")));
+        listenBtn.setForeground(Color.decode("#039be5"));
         listenBtn.setBounds(1,57,55, 55);
         listenBtn.setFocusPainted(false);
+        listenBtn.setToolTipText("Click to Start Listening");
 
         // Mouse Listener for listenBtn
         listenBtn.addMouseListener(new MouseAdapter() {
@@ -72,11 +74,13 @@ class JACListener {
             public void mouseClicked(MouseEvent e) {
                 listenFlag+=1;
                 if(listenFlag == 1) {
+                    listenBtn.setText("[*]");
                     listenBtn.addKeyListener(new KeyAdapter() {
                         @Override
                         public void keyTyped(KeyEvent e) {
                                 if (zeroFlag)
                                     numberOfClicks.setForeground(Color.white);
+
                                 if (e.getKeyChar() == properties.get("save").toString().charAt(0)) {
                                     x.add(MouseInfo.getPointerInfo().getLocation().x);
                                     y.add(MouseInfo.getPointerInfo().getLocation().y);
@@ -102,7 +106,7 @@ class JACListener {
                                         try {
                                             new AutoClickBot(x, y, delayArray, REPEATS);
                                         }catch (Exception ex){
-                                            System.out.print(ex);
+                                            ex.printStackTrace();
                                         }
                                 }
                         }
@@ -113,22 +117,30 @@ class JACListener {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                super.mouseEntered(e);
+               listenBtn.setBackground(Color.decode("#039be5"));
+               listenBtn.setForeground(Color.BLACK);
+               listenBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                super.mouseExited(e);
+                listenBtn.setBackground(Color.DARK_GRAY);
+                listenBtn.setForeground(Color.decode("#039be5"));
+                listenBtn.setBorder(BorderFactory.createLineBorder(Color.decode("#039be5")));
             }
         });
 
         frame.add(listenBtn);
 
         // Stop Listening Button
-        JButton executeBtn = new JButton("Execute");
-        //executeBtn.setFont(new Font("Arial", Font.PLAIN,15));
+        JButton executeBtn = new JButton("Ex");
         executeBtn.setBounds(1,113,55,55);
+        executeBtn.setBackground(Color.DARK_GRAY);
+        executeBtn.setForeground(Color.BLACK);
+        executeBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         executeBtn.setFocusPainted(false);
+        executeBtn.setToolTipText("Start Execution");
+
         // Mouse Listener for executeBtn
         executeBtn.addMouseListener(new MouseAdapter() {
             @Override
@@ -145,13 +157,31 @@ class JACListener {
                     info.setVisible(true);
                 }
             }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                executeBtn.setBackground(Color.BLACK);
+                executeBtn.setForeground(Color.white);
+                executeBtn.setBorder(BorderFactory.createLineBorder(Color.white));
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                executeBtn.setBackground(Color.DARK_GRAY);
+                executeBtn.setForeground(Color.BLACK);
+                executeBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            }
         });
         frame.add(executeBtn);
 
         // Exit Button
         JButton exitBtn = new JButton("X");
         exitBtn.setBounds(1,168,55,55);
+        exitBtn.setBackground(Color.DARK_GRAY);
+        exitBtn.setForeground(Color.decode("#f44336"));
+        exitBtn.setBorder(BorderFactory.createLineBorder(Color.decode("#f44336")));
         exitBtn.setFocusPainted(false);
+        exitBtn.setFocusable(false);
+        exitBtn.setToolTipText("Close Listener");
+
         // Mouse Listener for exitBtn
         exitBtn.addMouseListener(new MouseAdapter() {
             @Override
@@ -159,6 +189,18 @@ class JACListener {
                 frame.dispose();            // Close Listener Frame
                 parent.setState(JFrame.NORMAL);        // Bring JAutoClicker to Normal State
                 parent.toFront();       // Bring Parent Frame (JAutoClicker) to Front
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                exitBtn.setBackground(Color.decode("#f44336"));
+                exitBtn.setForeground(Color.DARK_GRAY);
+                exitBtn.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                exitBtn.setBackground(Color.DARK_GRAY);
+                exitBtn.setForeground(Color.decode("#f44336"));
+                exitBtn.setBorder(BorderFactory.createLineBorder(Color.decode("#f44336")));
             }
         });
         frame.add(exitBtn);
