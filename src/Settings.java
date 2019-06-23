@@ -108,6 +108,26 @@ class Settings {
         });
         settingDialog.add(DELKey);
 
+
+        // Label for Execution
+        JLabel exText = new JLabel("Execute : ");
+        exText.setBounds(8, 130, 200,30);
+        exText.setForeground(Color.white);
+        settingDialog.add(exText);
+
+        // Label for Displaying Execute Key
+        JLabel EXKey = new JLabel(properties.get("execute").toString());
+        EXKey.setBounds(208,130,70,30);
+        EXKey.setBackground(Color.DARK_GRAY);
+        EXKey.setForeground(Color.white);
+        EXKey.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new GetKeyDialog(settingDialog, EXKey, properties);
+            }
+        });
+        settingDialog.add(EXKey);
+
         // Save Button
 
         settingDialog.setLayout(null);

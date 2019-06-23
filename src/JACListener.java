@@ -84,7 +84,7 @@ class JACListener {
                                     btnCount += 1;
                                     numberOfClicks.setText(String.valueOf(btnCount));
                                 }
-                                if (e.getKeyChar() == 'z' || e.getKeyChar() == 'Z') {
+                                if (e.getKeyChar() == properties.get("delete").toString().charAt(0)) {
                                     if (btnCount == 0) {
                                         zeroFlag = true;
                                         numberOfClicks.setForeground(Color.RED);
@@ -95,6 +95,14 @@ class JACListener {
                                         btnCount -= 1;
                                         numberOfClicks.setText(String.valueOf(btnCount));
                                     }
+                                }
+                                if (e.getKeyChar() == properties.get("execute").toString().charAt(0)){
+                                    if(btnCount > 0)
+                                        try {
+                                            new AutoClickBot(x, y, delayArray, REPEATS);
+                                        }catch (Exception ex){
+                                            System.out.print(ex);
+                                        }
                                 }
                         }
                     });

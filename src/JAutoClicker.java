@@ -35,6 +35,7 @@ public class JAutoClicker {
         if(!configFile.exists()) {
             properties.setProperty("save", "X");
             properties.setProperty("delete", "Z");
+            properties.setProperty("execute", "E");
             try {
                 properties.store(new FileWriter(configFile.getName()), "Configuration File for JAutoClicker\nGit Repo : https://www.github.com/akashdeepb/JAutoClicker");
             } catch (IOException e) {
