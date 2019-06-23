@@ -27,12 +27,10 @@ class JACListener {
     private Boolean timeCounter = false;
     private int listenFlag = 0;
 
-    JACListener(JFrame parent, Dimension screenSize, Boolean timeCount, int DEFAULT_DELAY, int REPEATS){
+    JACListener(JFrame parent, Dimension screenSize, int DEFAULT_DELAY, int REPEATS){
         x = new ArrayList<>(10);
-        y = new ArrayList<>(10);
+        y = new ArrayList<>(    10);
         delayArray = new ArrayList<>(10);
-        timeCounter = timeCount;
-
         // Listener frame configurations
         JFrame frame = new JFrame("JACListener");
         frame.setSize(60,250);
@@ -65,10 +63,15 @@ class JACListener {
                                 if (zeroFlag)
                                     numberOfClicks.setForeground(Color.white);
                                 if (e.getKeyChar() == 'x' || e.getKeyChar() == 'X') {
+                                    if(btnCount == 0)
+                                        System.out.print(0);
+                                    else
+                                        System.out.print(System.nanoTime());
                                     x.add(MouseInfo.getPointerInfo().getLocation().x);
                                     y.add(MouseInfo.getPointerInfo().getLocation().y);
                                     if(!timeCounter)
                                         delayArray.add(DEFAULT_DELAY);
+
                                     btnCount += 1;
                                     numberOfClicks.setText(String.valueOf(btnCount));
                                 }
@@ -114,7 +117,6 @@ class JACListener {
             public void mouseClicked(MouseEvent e) {
                 try {
                     new AutoClickBot(x, y, delayArray, REPEATS);
-
                 }catch(Exception ex){
                     JDialog errorDialog = new JDialog(frame, "Error");
                     JLabel info = new JLabel(ex.toString());

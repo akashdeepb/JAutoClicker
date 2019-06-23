@@ -43,14 +43,6 @@ public class JAutoClicker {
         frame.add(startListenButton);
 
         //Configuration Area
-        // CheckBox for Time Counter
-        JCheckBox timeCount = new JCheckBox("Enable Time Counter");
-        timeCount.setBounds(50,140,180,20);
-        timeCount.setFocusPainted(false);
-        timeCount.setBackground(Color.DARK_GRAY);
-        timeCount.setForeground(Color.white);
-        frame.add(timeCount);
-
         // Default Delay
         JLabel delayText = new JLabel("DELAY : ");
         delayText.setBounds(50,170,60, 20);
@@ -78,33 +70,23 @@ public class JAutoClicker {
         repeatNumber.setText("20");
         frame.add(repeatNumber);
 
-
-        // Mouse Listener for TimeCount Checkbox
-        timeCount.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(timeCount.isSelected()) {
-                    delayText.setEnabled(false);
-                    delayTime.setEnabled(false);
-                    delayTime.setBackground(Color.DARK_GRAY);
-                }
-                else{
-                    delayText.setEnabled(true);
-                    delayTime.setEnabled(true);
-                    delayTime.setBackground(Color.white);
-                }
-            }
-        });
-
-
         // Mouse Listener for Start Listen Button
         startListenButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-                frame.setState(JFrame.ICONIFIED);
-                this.mouseExited(e);
-                new JACListener(frame, screenSize, timeCount.isSelected(), Integer.parseInt(delayTime.getText()), Integer.parseInt(repeatNumber.getText()));
+                if(delayTime.getText().isEmpty() || !delayTime.getText().matches("[0-9]+"))
+                    delayTime.setBorder(BorderFactory.createLineBorder(Color.RED));
+                else if(repeatNumber.getText().isEmpty() || !repeatNumber.getText().matches("[0-9]+")) {
+                    delayTime.setBorder(BorderFactory.createLineBorder(Color.white));
+                    repeatNumber.setBorder(BorderFactory.createLineBorder(Color.RED));
+                }
+                else {
+                    repeatNumber.setBorder(BorderFactory.createLineBorder(Color.white));
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                    frame.setState(JFrame.ICONIFIED);
+                    this.mouseExited(e);
+                    new JACListener(frame, screenSize,Integer.parseInt(delayText.getText()), Integer.parseInt(repeatNumber.getText()));
+                }
             }
 
             @Override

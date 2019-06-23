@@ -28,7 +28,6 @@ class AutoClickBot {
                     // Delay
                     try {
                         Thread.sleep(Integer.parseInt(delayArray.get(index).toString()));
-
                     } catch (InterruptedException ex) {
                         throw new Exception("Interrupted By User");
                     }
