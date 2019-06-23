@@ -164,15 +164,18 @@ public class JAutoClicker {
         helpBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                frame.setEnabled(false);
+                frame.setEnabled(false);        // Disable Parent
+
+                // Configuring Help Dialog
                 JDialog helpDialog = new JDialog(frame, "Help");
                 helpDialog.setSize(300,350);
                 helpDialog.getContentPane().setBackground(Color.DARK_GRAY);
+                helpDialog.setLocation(dim.width/2 - helpDialog.getSize().width/2, dim.height/2 - helpDialog.getSize().height/2);
 
                 // Help Label
                 JLabel helpText = new JLabel("HELP");
                 helpText.setForeground(Color.white);
-                helpText.setBounds(140,5,100,40);
+                helpText.setBounds(130,5,100,40);
                 helpDialog.add(helpText);
 
                 //How to Use Label
@@ -184,27 +187,29 @@ public class JAutoClicker {
                 // Instruction Label
                 JLabel instructions = new JLabel("<html>1. Click on START LISTENING after desired configs<br>" +
                         "2. Click on * button on Listener. * will be transformed to [*], this means Listener is initialized<br>" +
-                        "*  ->  [ * ]<br>" +
-                        "3. Once All the Coordinates are Recorded, Click on Ex button<br></html>");
-                instructions.setBounds(10,50,280,140);
+                        "3. Press Saving key (By Default 'X') on the Position(s) you want to click. To undo previous point Press on Delete Key (By Default 'Z')<br>" +
+                        "4. Once All the Coordinates are Recorded, Click on Ex button (or Execute Key [By Default 'E']<br></html>");
+                instructions.setBounds(10,50,280,200);
                 instructions.setForeground(Color.white);
                 helpDialog.add(instructions);
 
                 // Repo Link Text
                 JLabel linkText = new JLabel("Git Repository : ");
-                linkText.setBounds(10,220, 180,20);
+                linkText.setBounds(10,250, 180,20);
                 linkText.setForeground(Color.decode("#e0e0e0"));
                 helpDialog.add(linkText);
 
                 // Git Repository : https://www.github.com/akashdeepb/JAutoClicker.git
                 String repoLink = "https://www.github.com/akashdeepb/JAutoClicker.git";
-                JButton LINK = new JButton(repoLink);
-                LINK.setBounds(10,240,180,30);
+                JButton LINK = new JButton("Click here");
+                LINK.setBounds(50,270,100,30);
                 LINK.setBackground(Color.DARK_GRAY);
                 LINK.setForeground(Color.BLUE);
                 LINK.setFocusable(false);
                 LINK.setFocusPainted(false);
                 LINK.setBorder(null);
+
+                // Mouse Listener for LINK, User can click on this to visit original Repo
                 LINK.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -219,6 +224,38 @@ public class JAutoClicker {
                 });
                 helpDialog.add(LINK);
 
+                // Close Button
+                JButton closeBtn = new JButton("CLOSE");
+                closeBtn.setBounds(100,310, 90,30);
+                closeBtn.setBackground(Color.decode("#90a4ae"));
+                closeBtn.setForeground(Color.DARK_GRAY);
+                closeBtn.setFocusPainted(false);
+                closeBtn.setFocusable(false);
+                closeBtn.setBorder(null);
+
+                // Mouse Listener for Close Button
+                closeBtn.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        frame.setEnabled(true);
+                        helpDialog.dispose();
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        closeBtn.setBackground(Color.decode("#f44336"));
+                        closeBtn.setForeground(Color.white);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        closeBtn.setBackground(Color.decode("#90a4ae"));
+                        closeBtn.setForeground(Color.DARK_GRAY);
+                    }
+                });
+                helpDialog.add(closeBtn);
+
+                helpDialog.setUndecorated(true);
                 helpDialog.setLayout(null);
                 helpDialog.setVisible(true);
 
