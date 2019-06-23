@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Properties;
 
 /**
@@ -163,7 +164,64 @@ public class JAutoClicker {
         helpBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                //HELP
+                frame.setEnabled(false);
+                JDialog helpDialog = new JDialog(frame, "Help");
+                helpDialog.setSize(300,350);
+                helpDialog.getContentPane().setBackground(Color.DARK_GRAY);
+
+                // Help Label
+                JLabel helpText = new JLabel("HELP");
+                helpText.setForeground(Color.white);
+                helpText.setBounds(140,5,100,40);
+                helpDialog.add(helpText);
+
+                //How to Use Label
+                JLabel howToUse = new JLabel("How to Use : ");
+                howToUse.setBounds(10,30,140,30);
+                howToUse.setForeground(Color.decode("#212121"));
+                helpDialog.add(howToUse);
+
+                // Instruction Label
+                JLabel instructions = new JLabel("<html>1. Click on START LISTENING after desired configs<br>" +
+                        "2. Click on * button on Listener. * will be transformed to [*], this means Listener is initialized<br>" +
+                        "*  ->  [ * ]<br>" +
+                        "3. Once All the Coordinates are Recorded, Click on Ex button<br></html>");
+                instructions.setBounds(10,50,280,140);
+                instructions.setForeground(Color.white);
+                helpDialog.add(instructions);
+
+                // Repo Link Text
+                JLabel linkText = new JLabel("Git Repository : ");
+                linkText.setBounds(10,220, 180,20);
+                linkText.setForeground(Color.decode("#e0e0e0"));
+                helpDialog.add(linkText);
+
+                // Git Repository : https://www.github.com/akashdeepb/JAutoClicker.git
+                String repoLink = "https://www.github.com/akashdeepb/JAutoClicker.git";
+                JButton LINK = new JButton(repoLink);
+                LINK.setBounds(10,240,180,30);
+                LINK.setBackground(Color.DARK_GRAY);
+                LINK.setForeground(Color.BLUE);
+                LINK.setFocusable(false);
+                LINK.setFocusPainted(false);
+                LINK.setBorder(null);
+                LINK.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(Desktop.isDesktopSupported()) {
+                            try {
+                                Desktop.getDesktop().browse(URI.create(repoLink));
+                            }catch (IOException ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                helpDialog.add(LINK);
+
+                helpDialog.setLayout(null);
+                helpDialog.setVisible(true);
+
             }
         });
         frame.add(helpBtn);
