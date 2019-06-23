@@ -45,7 +45,7 @@ public class JAutoClicker {
         //Configuration Area
         // Default Delay
         JLabel delayText = new JLabel("DELAY : ");
-        delayText.setBounds(50,170,60, 20);
+        delayText.setBounds(50,130,60, 20);
         delayText.setForeground(Color.white);
         frame.add(delayText);
         JTextPane delayTime = new JTextPane();
@@ -53,20 +53,20 @@ public class JAutoClicker {
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center,false);
-        delayTime.setBounds(150,170,100,20);
+        delayTime.setBounds(150,130,100,20);
         delayTime.setText("1000");
         frame.add(delayTime);
 
         // Repeats
         JLabel repeatText = new JLabel("REPS:" );
-        repeatText.setBounds(50,200,60,20);
+        repeatText.setBounds(50,170,60,20);
         repeatText.setForeground(Color.white);
         frame.add(repeatText);
         JTextPane repeatNumber = new JTextPane();
         StyledDocument styledRepeat = repeatNumber.getStyledDocument();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         styledRepeat.setParagraphAttributes(0,styledRepeat.getLength(),center,false);
-        repeatNumber.setBounds(150,200,100,20);
+        repeatNumber.setBounds(150,170,100,20);
         repeatNumber.setText("20");
         frame.add(repeatNumber);
 
@@ -107,7 +107,7 @@ public class JAutoClicker {
 
         // Settings Button
         JButton settingsButton = new JButton("SETTINGS");
-        settingsButton.setBounds(50,240,200,30);
+        settingsButton.setBounds(50,220,200,30);
         settingsButton.setFocusPainted(false);
         settingsButton.setFocusable(false);
         settingsButton.setBackground(Color.decode("#90a4ae"));
@@ -115,12 +115,12 @@ public class JAutoClicker {
         settingsButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                new Settings(frame);
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                settingsButton.setBackground(Color.decode("#d50000"));
+                settingsButton.setBackground(Color.decode("#0277bd"));
                 settingsButton.setForeground(Color.WHITE);
             }
 
@@ -132,6 +132,12 @@ public class JAutoClicker {
         });
         frame.add(settingsButton);
 
+        // Help Button
+        JButton helpBtn = new JButton("HELP");
+        helpBtn.setBounds(50,270,200,30);
+        helpBtn.setBackground(Color.decode("#757575"));
+        helpBtn.setFocusPainted(false);
+        frame.add(helpBtn);
 
         frame.setLayout(null);
         frame.setVisible(true);
