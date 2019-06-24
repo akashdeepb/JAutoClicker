@@ -48,7 +48,7 @@ class JACListener {
         JFrame frame = new JFrame("JACListener");
         frame.setSize(60,225);
         frame.setUndecorated(true);
-        frame.setLocation( screenSize.width , (screenSize.height/2 - 150));
+        frame.setLocation( screenSize.width - frame.getSize().width , (screenSize.height/2 - frame.getSize().height/2));
         frame.getContentPane().setBackground(Color.DARK_GRAY);
 
         // Label to show recorded/listened clicks
